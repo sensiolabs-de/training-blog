@@ -8,7 +8,16 @@
     {{ post.content|md2html }}
 
     <div id="post-add-comment" class="well">
-        {{ render(controller('App\\Controller\\BlogController::commentForm', { 'id': post.id })) }}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ render(controller('App\\Controller\\BlogController::commentForm', { 'id': post.id })) }}
+        {% else %}
+            <p>
+                <a class="btn btn-success" href="{{ path('security_login') }}">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'action.sign_in'|trans }}
+                </a>
+                {{ 'post.to_publish_a_comment'|trans }}
+            </p>
+        {% endif %}
     </div>
 
     <h3>{{ 'post.num_comments'|transchoice(post.comments|length) }}</h3>

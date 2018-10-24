@@ -5,7 +5,9 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\CommentType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +39,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/comment/{slug}/new", name="comment_new", methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function commentNew(Request $request, Post $post): Response
     {
@@ -47,6 +50,10 @@ class BlogController extends Controller
             /** @var Comment $comment */
             $comment = $form->getData();
             $comment->setPost($post);
+
+            /** @var User $user */
+            $user = $this->getUser();
+            $comment->setAuthorEmail($user->getEmail());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
