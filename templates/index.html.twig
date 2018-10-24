@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_index' %}
+
+{% block main %}
+    {% if posts is defined and posts is not empty %}
+        {% for post in posts %}
+            <article class="post">
+                <h2>
+                    <a href="">
+                        {{ post.title }}
+                    </a>
+                </h2>
+
+                {{ post.summary }}
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="well">No posts found.</div>
+    {% endif %}
+{% endblock %}
