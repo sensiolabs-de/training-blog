@@ -8,7 +8,7 @@
     {{ post.content|md2html }}
 
     <div id="post-add-comment" class="well">
-        {{ render(controller('App\\Controller\\BlogController:commentForm', { 'id': post.id })) }}
+        {{ render(controller('App\\Controller\\BlogController::commentForm', { 'id': post.id })) }}
     </div>
 
     <h3>{{ 'post.num_comments'|transchoice(post.comments|length) }}</h3>
