@@ -77,6 +77,12 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "erusev/parsedown": {
+        "version": "1.7.1"
+    },
+    "ezyang/htmlpurifier": {
+        "version": "v4.10.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
