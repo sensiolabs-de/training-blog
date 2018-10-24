@@ -23,9 +23,11 @@
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "symfony/browser-kit": "*",
         "symfony/debug-pack": "^1.0",
         "symfony/dotenv": "*",
         "symfony/profiler-pack": "^1.0",
+        "symfony/test-pack": "^1.0",
         "symfony/web-server-bundle": "*"
     },
     "config": {
