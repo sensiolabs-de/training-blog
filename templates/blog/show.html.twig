@@ -5,7 +5,7 @@
 {% block main %}
     <h1>{{ post.title }}</h1>
 
-    {{ post.content }}
+    {{ post.content|md2html }}
 
     <h3>{{ post.comments|length }} Comment{{ post.comments|length > '1' ? 's' }}</h3>
 
