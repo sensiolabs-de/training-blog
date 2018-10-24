@@ -1,0 +1,6 @@
+{{ form_start(form, { method: 'POST', action: path('comment_new', { 'postSlug': post.slug }) }) }}
+<fieldset>
+    <legend>Add a comment</legend>
+    {{ form_widget(form) }}
+</fieldset>
+{{ form_end(form) }}

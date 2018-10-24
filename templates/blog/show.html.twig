@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_post_show' %}
+
+{% block main %}
+    <h1>{{ post.title }}</h1>
+
+    {{ post.content }}
+
+    <h3>{{ post.comments|length }} Comment{{ post.comments|length > '1' ? 's' }}</h3>
+
+    {% for comment in post.comments %}
+        <div class="row post-comment">
+            <h4 class="col-sm-3">
+                <strong>{{ comment.authorEmail }}</strong> commented on
+                <strong>{{ comment.publishedAt|date }}</strong>
+            </h4>
+            <div class="col-sm-9">
+                {{ comment.content }}
+            </div>
+        </div>
+    {% else %}
+        <div class="post-comment">
+            <p>Be the first to comment on this post.</p>
+        </div>
+    {% endfor %}
+{% endblock %}

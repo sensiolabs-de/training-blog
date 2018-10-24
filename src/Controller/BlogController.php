@@ -18,6 +18,8 @@ class BlogController extends AbstractController
      */
     public function index(): Response
     {
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findLatest($page);
+
         return $this->render('index.html.twig');
     }
 }
