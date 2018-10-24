@@ -125,6 +125,11 @@ class Post
         $this->authorEmail = $authorEmail;
     }
 
+    public function isAuthor(User $user)
+    {
+        return $user->getEmail() === $this->getAuthorEmail();
+    }
+
     public function getPublishedAt()
     {
         return $this->publishedAt;

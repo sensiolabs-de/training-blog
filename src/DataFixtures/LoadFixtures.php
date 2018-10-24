@@ -13,10 +13,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Utils\Slugger;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Defines the sample data to load in the database when running the unit and
@@ -32,10 +34,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LoadFixtures extends Fixture
 {
     private $slugger;
+    private $passwordEncoder;
 
-    public function __construct(Slugger $slugger)
+    public function __construct(Slugger $slugger, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->slugger = $slugger;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -44,6 +48,7 @@ class LoadFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadPosts($manager);
+        $this->loadUsers($manager);
     }
 
     private function loadPosts(ObjectManager $manager)
@@ -80,6 +85,26 @@ class LoadFixtures extends Fixture
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    private function loadUsers(ObjectManager $manager)
+    {
+        $johnUser = new User();
+        $johnUser->setFullName('John Doe');
+        $johnUser->setUsername('john_user');
+        $johnUser->setEmail('john_user@symfony.com');
+        $encodedPassword = $this->passwordEncoder->encodePassword($johnUser, 'kitten');
+        $johnUser->setPassword($encodedPassword);
+        $manager->persist($johnUser);
+        $annaAdmin = new User();
+        $annaAdmin->setFullName('Anna Doe');
+        $annaAdmin->setUsername('anna_admin');
+        $annaAdmin->setEmail('anna_admin@symfony.com');
+        $annaAdmin->setRoles(array('ROLE_ADMIN'));
+        $encodedPassword = $this->passwordEncoder->encodePassword($annaAdmin, 'kitten');
+        $annaAdmin->setPassword($encodedPassword);
+        $manager->persist($annaAdmin);
+        $manager->flush();
     }
 
     private function getPostContent()

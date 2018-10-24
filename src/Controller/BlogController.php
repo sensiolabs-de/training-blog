@@ -7,9 +7,6 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +28,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("{slug}", name="post")
+     * @Route("/post/{slug}", name="post")
      */
     public function show(Post $post): Response
     {
@@ -39,7 +36,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("{slug}/comment/new", name="comment_new")
+     * @Route("/comment/{slug}/new", name="comment_new", methods={"POST"})
      */
     public function commentNew(Request $request, Post $post): Response
     {
@@ -59,8 +56,8 @@ class BlogController extends Controller
         }
 
         return $this->render('blog/comment_form_error.html.twig', [
-            'form' => $form->createView(),
             'post' => $post,
+            'form' => $form->createView(),
         ]);
     }
 
