@@ -9,6 +9,10 @@
 
     <h3>{{ post.comments|length }} Comment{{ post.comments|length > '1' ? 's' }}</h3>
 
+    <div id="post-add-comment" class="well">
+        {{ render(controller('App\\Controller\\BlogController:commentForm', { 'id': post.id })) }}
+    </div>
+
     {% for comment in post.comments %}
         <div class="row post-comment">
             <h4 class="col-sm-3">
