@@ -45,8 +45,17 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
                                     <a href="{{ path('blog_index') }}">
-                                        <i class="fa fa-home"></i> Homepage
+                                        <i class="fa fa-home"></i> {{ 'menu.homepage'|trans }}
                                     </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-globe"></i> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu locales" role="menu">
+                                        {% set localeCodes = locales|split('|') %}
+                                        {% for locale in localeCodes %}
+                                            <li {% if app.request.locale == locale %}class="active"{% endif %}><a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({ _locale: locale })) }}">{{ locale|upper }}</a></li>
+                                        {% endfor %}
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
@@ -66,10 +75,10 @@
                         <div class="section about">
                             <div class="well well-lg">
                                 <p>
-                                    This is a <strong>demo application</strong> built in the Symfony Framework to illustrate the recommended way of developing Symfony applications.
+                                    {{ 'help.app_description'|trans|raw }}
                                 </p>
                                 <p>
-                                    For more information, check out the <a href="http://symfony.com/doc">Symfony doc</a>.
+                                    {{ 'help.more_information'|trans|raw }}
                                 </p>
                             </div>
                         </div>
@@ -84,7 +93,7 @@
                     <div class="row">
                         <div id="footer-copyright" class="col-md-6">
                             <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
-                            <p>MIT License</p>
+                            <p>{{ 'mit_license'|trans }}</p>
                         </div>
                         <div id="footer-resources" class="col-md-6">
                             <p>

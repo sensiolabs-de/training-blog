@@ -1,9 +1,9 @@
 {{ form_start(form, { method: 'POST', action: path('blog_comment_new', { 'slug': post.slug }) }) }}
 <fieldset>
-    <legend>Add a comment</legend>
+    <legend>{{ 'title.add_comment'|trans }}</legend>
     {{ form_widget(form) }}
     <div class="form-group">
-        <button class="btn btn-primary pull-right" type="submit">Publish a comment</button>
+        <button class="btn btn-primary pull-right" type="submit">{{ 'action.publish_comment'|trans }}</button>
     </div>
 </fieldset>
 {{ form_end(form) }}

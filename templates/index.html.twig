@@ -7,7 +7,7 @@
         {% for post in posts %}
             <article class="post">
                 <h2>
-                    <a href="{{ path('blog_post', {'slug': post.slug}) }}">
+                    <a href="{{ path('blog_post', {'slug' : post.slug}) }}">
                         {{ post.title }}
                     </a>
                 </h2>
@@ -16,6 +16,6 @@
             </article>
         {% endfor %}
     {% else %}
-        <div class="well">No posts found.</div>
+        <div class="well">{{ 'post.no_posts_found'|trans }}</div>
     {% endif %}
 {% endblock %}
