@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,23 +38,39 @@ class BlogController extends Controller
         return $this->render('blog/show.html.twig', ['post' => $post]);
     }
 
+    /**
+     * @Route("{slug}/comment/new", name="comment_new")
+     */
+    public function commentNew(Request $request, Post $post): Response
+    {
+        $form = $this->createForm(CommentType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+            $comment->setPost($post);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('blog_post', ['slug' => $post->getSlug()]);
+        }
+
+        return $this->render('blog/comment_form_error.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post,
+        ]);
+    }
+
     public function commentForm(Post $post)
     {
-        $form = $this->createFormBuilder();
-        $form
-            ->add('authorEmail', EmailType::class)
-            ->add('content',TextareaType::class, [
-                'attr' => ['rows' => 10],
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Publish a comment',
-                'attr' => ['class' => 'btn-primary pull-right'],
-            ])
-        ;
+        $form = $this->createForm(CommentType::class);
 
         return $this->render('blog/_comment_form.html.twig', array(
             'post' => $post,
-            'form' => $form->getForm()->createView(),
+            'form' => $form->createView(),
         ));
     }
 }

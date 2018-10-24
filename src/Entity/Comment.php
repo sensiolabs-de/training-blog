@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -43,11 +44,13 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10)
      */
     private $content;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Email
      */
     private $authorEmail;
 
