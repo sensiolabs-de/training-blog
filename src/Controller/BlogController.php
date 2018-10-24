@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +16,12 @@ class BlogController extends AbstractController
 {
     /**
      * @Route("", name="index")
+     * @Route("/{page}", name="index_paged", requirements={"page":"\d+"})
      */
-    public function index(): Response
+    public function index($page = 1): Response
     {
         $posts = $this->getDoctrine()->getRepository(Post::class)->findLatest($page);
 
-        return $this->render('index.html.twig');
+        return $this->render('index.html.twig', ['posts' => $posts]);
     }
 }
